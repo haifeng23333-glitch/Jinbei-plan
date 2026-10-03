@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="mobile-web-app-capable" content="yes" />
+<title>晋北巡店计划工作台 · V5四人通用测试版</title>
+<style>
+:root{--red:#e53935;--red2:#fff0ef;--ink:#1f2329;--muted:#7b8190;--line:#e9eaf0;--bg:#f6f7f9;--green:#179b62;--blue:#2c6dd2;--amber:#d98c15;--shadow:0 8px 26px rgba(28,33,44,.08)}
+*{box-sizing:border-box}body{margin:0;background:#dfe2e8;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif;color:var(--ink)}
+.phone{width:min(100%,430px);min-height:100vh;margin:0 auto;background:var(--bg);position:relative;padding-bottom:80px;box-shadow:0 0 50px rgba(0,0,0,.08)}
+.top{background:#fff;padding:18px 16px 13px;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}.topline{display:flex;align-items:center;justify-content:space-between;gap:10px}.brand{font-weight:800;font-size:20px}.badge{font-size:11px;padding:5px 8px;border-radius:999px;background:#fff3d8;color:#9a6300}.sub{margin-top:6px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:8px;align-items:center}.monthpick{border:0;background:#f4f5f7;border-radius:8px;padding:5px 7px;font-size:12px;width:auto}
+.view{display:none;padding:13px}.view.active{display:block}.card{background:#fff;border:1px solid #eff0f4;border-radius:15px;box-shadow:var(--shadow);padding:14px;margin-bottom:11px}.card h3{font-size:15px;margin:0 0 11px}.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.kpi{background:#fafafa;border:1px solid #f0f1f4;border-radius:11px;padding:9px 5px;text-align:center}.kpi b{display:block;font-size:21px;margin-bottom:2px}.kpi span{font-size:10px;color:var(--muted)}.red b{color:var(--red)}.green b{color:var(--green)}.blue b{color:var(--blue)}.amber b{color:var(--amber)}
+.notice{padding:10px 11px;border-radius:11px;background:var(--red2);color:#8a2b25;font-size:12px;line-height:1.55;margin-bottom:7px}.notice.gray{background:#f2f3f5;color:#555c67}.notice.good{background:#eaf8f1;color:#127048}.notice.blue{background:#eaf1ff;color:#285aa8}
+.progress{height:8px;background:#eceef2;border-radius:999px;overflow:hidden}.progress>i{display:block;height:100%;border-radius:999px}.progress.red>i{background:linear-gradient(90deg,#f05a52,#d92f2b)}.progress.blue>i{background:linear-gradient(90deg,#5b8fe8,#2c6dd2)}.progress-label{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin:8px 0 5px}.divider{height:1px;background:#eef0f3;margin:11px 0}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:15px 2px 8px}.section-title b{font-size:14px}.section-title small{color:var(--muted)}
+.btn{border:0;border-radius:9px;padding:10px 12px;font-weight:700;font-size:12px;cursor:pointer}.btn.red{background:var(--red);color:#fff}.btn.ghost{background:#f3f4f6;color:#454b55}.btn.green{background:#e7f6ef;color:#14784e}.btn.blue{background:#eaf1ff;color:#285aa8}.btn.danger{background:#fff0ef;color:#b2312a}.btn.sm{padding:7px 8px;font-size:11px}
+input,select,textarea{width:100%;border:1px solid #dfe2e8;border-radius:9px;padding:10px;background:#fff;font-size:13px;outline:none;font-family:inherit}textarea{min-height:112px;resize:vertical;line-height:1.5}input:focus,select:focus,textarea:focus{border-color:#e56b65;box-shadow:0 0 0 3px rgba(229,107,101,.12)}
+.addbox{display:grid;grid-template-columns:1fr 1fr;gap:8px}.full{grid-column:1/-1}.small{font-size:11px;color:var(--muted);line-height:1.65}
+.day{background:#fff;border-radius:13px;border:1px solid #eceef2;padding:11px;margin-bottom:8px}.dayhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}.dayhead b{font-size:13px}.dayhead span{font-size:11px;color:var(--muted)}.visit{display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid #f0f1f3}.visit:first-of-type{border-top:0}.code{font-weight:800;font-size:13px;min-width:58px}.meta{flex:1;min-width:0}.meta .addr{font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}.tag{font-size:9px;padding:3px 5px;border-radius:999px;background:#f0f1f4;color:#606673;white-space:nowrap}.tag.high{background:#ffe4e1;color:#ba3029}.tag.done{background:#e4f6ed;color:#127149}.tag.online{background:#eaf1ff;color:#285aa8}.tag.offline{background:#fff1df;color:#8b5a08}.tag.meeting{background:#eee8ff;color:#6846a5}.tag.rest{background:#eef0f3;color:#555c67}.tag.activity{background:#e7f6ef;color:#14784e}
+.store{background:#fff;border:1px solid #eceef2;border-radius:12px;padding:11px;margin-bottom:7px}.storetop{display:flex;justify-content:space-between;gap:8px;align-items:center}.storecode{font-weight:800;font-size:13px}.storeaddr{font-size:10px;color:var(--muted);margin-top:4px;line-height:1.45}.storefoot{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}.pill{font-size:10px;padding:4px 6px;border-radius:7px;background:#f4f5f7;color:#59606b}.pill.high{background:#ffe4e1;color:#b72b24}.pill.warn{background:#fff2d9;color:#8c5c03}.pill.blue{background:#eaf1ff;color:#285aa8}
+.toolbar{display:grid;grid-template-columns:1.4fr 1fr;gap:7px;margin-bottom:9px}.backup-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.tabs{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,430px);height:70px;background:rgba(255,255,255,.97);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);z-index:10;backdrop-filter:blur(12px)}.tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;color:#8a909c;cursor:pointer}.tab b{font-size:17px;line-height:1}.tab.active{color:var(--red);font-weight:700}
+.empty{text-align:center;padding:24px 8px;color:var(--muted);font-size:12px}.toast{position:fixed;z-index:99;left:50%;bottom:86px;transform:translateX(-50%);background:#242830;color:#fff;padding:9px 12px;border-radius:9px;font-size:11px;opacity:0;pointer-events:none;transition:.2s;max-width:88%;text-align:center}.toast.show{opacity:1}.row{display:flex;gap:7px}.row>*{flex:1}.label{font-size:11px;color:#5f6670;margin:8px 0 5px;font-weight:700}.statline{display:flex;justify-content:space-between;font-size:12px;padding:7px 0;border-bottom:1px solid #f1f2f4}.statline:last-child{border-bottom:0}.warnbox{border-left:3px solid var(--amber);padding-left:9px}.okbox{border-left:3px solid var(--green);padding-left:9px}
+
+.store-status{margin-top:8px;border-top:1px solid #f0f1f4;padding-top:7px}.statusrow{display:flex;align-items:flex-start;gap:7px;margin-top:6px}.statusrow:first-child{margin-top:0}.statuslabel{flex:0 0 38px;font-size:10px;font-weight:800;padding-top:4px}.statuslabel.online{color:var(--blue)}.statuslabel.offline{color:var(--amber)}.statuspills{display:flex;gap:5px;flex-wrap:wrap;min-width:0}.pill.ok{background:#e4f6ed;color:#127149}.pill.bad{background:#ffe8e5;color:#ae312a}.pill.wait{background:#fff2d9;color:#8c5c03}.pill.info{background:#eaf1ff;color:#285aa8}.pill.neutral{background:#f2f3f5;color:#59606b}.plan-filter{display:grid;grid-template-columns:1fr 1.2fr;gap:8px}.plan-filter .full{grid-column:1/-1}
+
+.setup-mask{position:fixed;inset:0;background:rgba(22,26,34,.58);z-index:100;display:none;align-items:center;justify-content:center;padding:18px}.setup-mask.show{display:flex}.setup-card{width:min(100%,390px);background:#fff;border-radius:18px;padding:18px;box-shadow:0 20px 60px rgba(0,0,0,.22)}.setup-card h2{margin:0 0 7px;font-size:19px}.setup-card p{font-size:12px;color:var(--muted);line-height:1.65;margin:0 0 13px}.setup-actions{display:grid;gap:8px;margin-top:12px}.setup-note{font-size:10px;color:#8a909c;line-height:1.55;margin-top:10px}.warning-strip{padding:10px 11px;border-radius:11px;background:#fff2d9;color:#825606;font-size:11px;line-height:1.55;margin-bottom:8px}
+</style>
+</head>
+<body>
+<div class="phone">
+<header class="top">
+  <div class="topline"><div class="brand">晋北巡店计划工作台</div><div class="badge">V5通用测试</div></div>
+  <div class="sub"><span id="ownerSub">朱海峰 · 吕梁市离石区</span><input id="monthPicker" class="monthpick" type="month" value="2026-10"></div>
+</header>
+<main>
+<section class="view active" id="home">
+  <div class="notice gray">到店巡检默认同时完成该店当次线上巡检；“开会 / 休息 / 到店活动”用于占用和规划工作日，其中到店活动可绑定具体门店，但不计入巡店覆盖。高风险门店按同一名单管理。</div>
+  <div class="card">
+    <h3>本月规划</h3>
+    <div class="kpis">
+      <div class="kpi"><b id="kTotal">0</b><span>负责门店</span></div>
+      <div class="kpi red"><b id="kOfflineTarget">0</b><span>线下最低覆盖</span></div>
+      <div class="kpi green"><b id="kOfflinePlanned">0</b><span>线下已规划</span></div>
+      <div class="kpi blue"><b id="kOnlinePlanned">0</b><span>线上已规划覆盖</span></div>
+      <div class="kpi amber"><b id="kOnlineRemain">0</b><span>线上还差门店</span></div>
+      <div class="kpi red"><b id="kHighSecond">0</b><span>高风险二访待排</span></div>
+    </div>
+    <div class="progress-label"><span>线下到店 80% 规划</span><span id="offlineProgressText"></span></div>
+    <div class="progress red"><i id="offlineProgressBar"></i></div>
+    <div class="progress-label"><span>线上全门店 100% 规划</span><span id="onlineProgressText"></span></div>
+    <div class="progress blue"><i id="onlineProgressBar"></i></div>
+  </div>
+  <div id="homeAlerts"></div>
+  <div class="card">
+    <h3>规则怎么计算</h3>
+    <div class="statline"><span>到店巡检</span><b>计入线下 + 同时计入线上</b></div>
+    <div class="statline"><span>仅线上巡检</span><b>只补线上覆盖</b></div>
+    <div class="statline"><span>普通门店线下</span><b>每季度累计2次</b></div>
+    <div class="statline"><span>高风险线下</span><b>每月2次，间隔≥10天</b></div>
+    <div class="statline"><span>线上覆盖</span><b>每自然月全部门店1轮</b></div>
+    <div class="statline"><span>开会 / 休息 / 到店活动</span><b>占用日期，不计巡检覆盖</b></div>
+  </div>
+  <div class="section-title"><b>接下来安排</b><small id="nextCount"></small></div>
+  <div id="nextPlan"></div>
+</section>
+
+<section class="view" id="plan">
+  <div class="card">
+    <h3>添加计划</h3>
+    <div class="addbox">
+      <select id="modeInput">
+        <option value="offline">到店巡检（含线上）</option>
+        <option value="online">仅线上巡检</option>
+        <option value="meeting">开会</option>
+        <option value="rest">休息</option>
+        <option value="activity">到店活动</option>
+      </select>
+      <input id="dateInput" type="date" value="2026-10-02" />
+      <select id="districtInput">
+        <option value="">全部县区</option>
+      </select>
+      <input id="storeInput" list="storeOptions" inputmode="numeric" placeholder="选择县区后输入门店编号" />
+      <datalist id="storeOptions"></datalist>
+      <input class="full" id="noteInput" placeholder="备注（会议地点 / 活动主题等，可选）" />
+      <button class="btn red full" id="addBtn">加入当天计划</button>
+    </div>
+    <div class="small" style="margin-top:8px">到店巡检：单日最多3家；高风险每月2次且两次至少间隔10天。先选县区可缩小门店编号范围。到店活动可绑定门店，但只显示在计划页，不计入线上/线下巡店覆盖。</div>
+  </div>
+  <div class="section-title"><b id="planTitle">本月计划明细</b><small id="planSummary"></small></div>
+  <div id="planList"></div>
+</section>
+
+<section class="view" id="stores">
+  <div class="toolbar">
+    <input id="searchInput" placeholder="搜索门店编号 / 区县 / 地址" />
+    <select id="riskFilter">
+      <option value="all">全部门店</option>
+      <option value="high">高风险</option>
+      <option value="offlineMissing">线下未规划</option>
+      <option value="onlineMissing">线上未覆盖</option>
+      <option value="quarterMissing">季度线下待补</option>
+      <option value="quarterZero">季度还未安排</option>
+      <option value="quarterOne">季度已排1次</option>
+    </select>
+  </div>
+  <div id="storeList"></div>
+</section>
+
+<section class="view" id="settings">
+  <div class="card">
+    <h3>基础设置</h3>
+    <div class="row"><div><div class="label">本人姓名</div><select id="ownerInput">
+<option value="">请选择</option>
+<option value="刘浩">刘浩</option>
+<option value="朱海峰">朱海峰</option>
+<option value="崔浩琦">崔浩琦</option>
+<option value="程豪">程豪</option>
+</select></div><div><div class="label">数据所属月份</div><input id="dataMonthInput" type="month" value="2026-10"></div></div>
+    <button class="btn ghost" style="margin-top:9px;width:100%" id="saveOwnerBtn">保存设置</button>
+  </div>
+  <div class="card">
+    <h3>更新每月门店数据</h3>
+    <div class="small">不需要上传服务器。直接在Excel里复制包含表头的数据区域，粘贴到下面。系统优先识别：门店编号/门店编码、门店名称、地市/城市、区县、地址、管店经理/顾问。若含“管店经理”，系统会自动只保留当前选择顾问名下门店。</div>
+    <textarea id="storePaste" placeholder="示例：\n门店编号\t门店名称\t城市\t区县\t地址\t管店经理\n930068\tXX店\t吕梁市\t离石区\t...\t朱海峰"></textarea>
+    <button class="btn red" style="width:100%" id="importStoresBtn">更新门店基础数据</button>
+    <div class="small" id="storeDataInfo" style="margin-top:8px"></div>
+  </div>
+  <div class="card">
+    <h3>更新季度高风险名单</h3>
+    <div class="small">高风险名单按季度保存，不写死在门店资料里。可以直接从Excel复制“门店编号”一列或包含门店编号的多列表格。</div>
+    <div class="row"><select id="quarterSelect"><option>2026Q4</option><option>2027Q1</option><option>2027Q2</option><option>2027Q3</option><option>2027Q4</option></select><button class="btn ghost" id="useCurrentQuarterBtn">使用当前季度</button></div>
+    <textarea id="highPaste" placeholder="粘贴高风险门店编号，例如：\n935858\n942411\n902360"></textarea>
+    <button class="btn red" style="width:100%" id="importHighBtn">替换该季度高风险名单</button>
+    <div class="small" id="highDataInfo" style="margin-top:8px"></div>
+    <button class="btn ghost" style="width:100%;margin-top:8px" id="loadPrevHighBtn">仅测试：将Q3高风险载入当前季度</button>
+    <div class="small" style="margin-top:6px">仅用于试用10天间隔等规则。正式使用Q4前，请用公司Q4高风险名单覆盖。</div>
+  </div>
+  <div class="card">
+    <h3>备份与恢复</h3>
+    <div class="small">所有数据只存在当前浏览器。建议每月计划排完后导出一次完整备份。</div>
+    <div class="divider"></div>
+    <div class="backup-actions">
+      <button class="btn red" id="exportBtn">导出完整备份</button>
+      <label class="btn ghost" style="text-align:center">导入完整备份<input id="importInput" type="file" accept="application/json" hidden></label>
+      <button class="btn ghost" id="demoBtn">清空后重新初始化</button>
+      <button class="btn danger" id="clearBtn">清空所有计划</button>
+    </div>
+  </div>
+</section>
+</main>
+<nav class="tabs">
+  <div class="tab active" data-view="home"><b>⌂</b><span>首页</span></div>
+  <div class="tab" data-view="plan"><b>▦</b><span>计划</span></div>
+  <div class="tab" data-view="stores"><b>≡</b><span>门店</span></div>
+  <div class="tab" data-view="settings"><b>⚙</b><span>设置</span></div>
+</nav>
+</div>
+
+<div class="setup-mask" id="setupMask">
+  <div class="setup-card">
+    <h2>首次使用</h2>
+    <p>这是4人通用版。网页本身不携带门店数据，避免公开托管时暴露内部门店信息。请选择自己的姓名，然后导入对应的初始化文件；之后数据只保存在本机浏览器。</p>
+    <div class="label">本人姓名</div>
+    <select id="setupOwner">
+      <option value="">请选择</option>
+      <option value="刘浩">刘浩</option>
+      <option value="朱海峰">朱海峰</option>
+      <option value="崔浩琦">崔浩琦</option>
+      <option value="程豪">程豪</option>
+    </select>
+    <div class="setup-actions">
+      <label class="btn red" style="text-align:center">导入我的初始化文件<input id="setupImportInput" type="file" accept="application/json" hidden></label>
+      <button class="btn ghost" id="startBlankBtn">先进入空白工作台</button>
+    </div>
+    <div class="setup-note">建议首次直接导入“姓名_初始化.json”。如果先进入空白工作台，也可以在“设置”里粘贴公司门店Excel数据。</div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const OWNER_LIST=['刘浩','朱海峰','崔浩琦','程豪'];
+const DEFAULT_STATE={version:5,owner:'',dataMonth:'2026-10',stores:[],previousHighRisk:[],highRiskByQuarter:{},plans:[]};
+const STORAGE_KEY='jinbei_visit_planner_v5_generic';
+let state=loadState();
+function deepClone(x){return JSON.parse(JSON.stringify(x))}
+function normalizeState(x){x=x||{};x.version=5;x.owner=OWNER_LIST.includes(x.owner)?x.owner:'';x.dataMonth=x.dataMonth||'2026-10';x.stores=Array.isArray(x.stores)?x.stores:[];x.previousHighRisk=Array.isArray(x.previousHighRisk)?x.previousHighRisk:[];x.highRiskByQuarter=x.highRiskByQuarter||{};x.plans=Array.isArray(x.plans)?x.plans:[];x.plans.forEach(p=>{if(!('done' in p))p.done=false;if(!('note' in p))p.note=''});return x}
+function loadState(){try{const x=JSON.parse(localStorage.getItem(STORAGE_KEY));if(x)return normalizeState(x)}catch(e){} const x=deepClone(DEFAULT_STATE);localStorage.setItem(STORAGE_KEY,JSON.stringify(x));return x}
+function saveState(){state.version=5;localStorage.setItem(STORAGE_KEY,JSON.stringify(state));renderAll();updateSetupMask()}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400)}
+function activeMonth(){return monthPicker.value||state.dataMonth||'2026-10'}
+function quarterOfMonth(m){const [y,mm]=m.split('-').map(Number);return `${y}Q${Math.floor((mm-1)/3)+1}`}
+function currentHighSet(){return new Set(state.highRiskByQuarter[quarterOfMonth(activeMonth())]||[])}
+function store(code){return state.stores.find(x=>String(x.code)===String(code))}
+function plansForMonth(){const m=activeMonth();return state.plans.filter(x=>x.date.startsWith(m))}
+function quarterPlans(){const q=quarterOfMonth(activeMonth());return state.plans.filter(x=>quarterOfMonth(x.date.slice(0,7))===q)}
+function fmtDate(s){const d=new Date(s+'T00:00:00');return `${d.getMonth()+1}月${d.getDate()}日`}
+function dayGap(a,b){return Math.round(Math.abs(new Date(a+'T00:00:00')-new Date(b+'T00:00:00'))/86400000)}
+function offlineCodes(plans=plansForMonth()){return new Set(plans.filter(x=>x.mode==='offline'&&x.code).map(x=>x.code))}
+function onlineCoveredCodes(plans=plansForMonth()){return new Set(plans.filter(x=>(x.mode==='offline'||x.mode==='online')&&x.code).map(x=>x.code))}
+function doneOfflineCodes(){return new Set(plansForMonth().filter(x=>x.mode==='offline'&&x.done&&x.code).map(x=>x.code))}
+function doneOnlineCoveredCodes(){return new Set(plansForMonth().filter(x=>(x.mode==='offline'||x.mode==='online')&&x.done&&x.code).map(x=>x.code))}
+function monthOfflineDoneCount(code){return plansForMonth().filter(x=>x.code===code&&x.mode==='offline'&&x.done).length}
+function monthOfflinePlannedCount(code){return plansForMonth().filter(x=>x.code===code&&x.mode==='offline').length}
+function monthOnlineDoneCount(code){return plansForMonth().filter(x=>x.code===code&&(x.mode==='offline'||x.mode==='online')&&x.done).length}
+function monthOnlinePlannedCount(code){return plansForMonth().filter(x=>x.code===code&&(x.mode==='offline'||x.mode==='online')).length}
+function highSecondRemaining(){const H=currentHighSet();let n=0;H.forEach(c=>{if(plansForMonth().filter(x=>x.code===c&&x.mode==='offline').length<2)n++});return n}
+function quarterOfflineDoneCount(code){return quarterPlans().filter(x=>x.code===code&&x.mode==='offline'&&x.done).length}
+function quarterOfflinePlannedCount(code){return quarterPlans().filter(x=>x.code===code&&x.mode==='offline').length}
+function ordinaryQuarterPending(){const H=currentHighSet();return state.stores.filter(s=>!H.has(s.code)&&quarterOfflinePlannedCount(s.code)<2).length}
+function renderHeader(){const cities=[...new Set(state.stores.map(s=>s.city).filter(Boolean))];ownerSub.textContent=`${state.owner||'请选择顾问'} · ${state.stores.length?((cities.length<=2?cities.join(' / '):'我的区域')):'尚未导入门店'}`;dataMonthInput.value=state.dataMonth||activeMonth();ownerInput.value=state.owner||''}
+function renderHome(){const n=state.stores.length,target=Math.ceil(n*.8),off=offlineCodes(),on=onlineCoveredCodes(),hs=highSecondRemaining();
+ kTotal.textContent=n;kOfflineTarget.textContent=target;kOfflinePlanned.textContent=off.size;kOnlinePlanned.textContent=on.size;kOnlineRemain.textContent=Math.max(0,n-on.size);kHighSecond.textContent=hs;
+ offlineProgressText.textContent=`${Math.min(off.size,target)} / ${target}`;offlineProgressBar.style.width=`${target?Math.min(100,off.size/target*100):0}%`;
+ onlineProgressText.textContent=`${Math.min(on.size,n)} / ${n}`;onlineProgressBar.style.width=`${n?Math.min(100,on.size/n*100):0}%`;
+ let a=[];if(!(state.highRiskByQuarter[quarterOfMonth(activeMonth())]||[]).length)a.push(`<div class="warning-strip">当前季度尚未导入高风险名单，高风险2次/10天规则暂不会生效。正式排班前请在“设置”中更新。</div>`);if(off.size<target)a.push(`<div class="notice">线下80%最低覆盖还差 <b>${target-off.size}</b> 家未规划。</div>`);else a.push(`<div class="notice good">线下80%最低覆盖已达到规划要求。</div>`);
+ if(on.size<n)a.push(`<div class="notice blue">线上全门店覆盖还差 <b>${n-on.size}</b> 家。优先给这些门店安排“仅线上巡检”。</div>`);else a.push(`<div class="notice good">线上100%全门店覆盖已全部规划。</div>`);
+ if(hs)a.push(`<div class="notice">还有 <b>${hs}</b> 家高风险门店未完成第二次到店规划。</div>`);else a.push(`<div class="notice good">本月高风险门店均已安排两次到店巡检。</div>`);
+ const qp=ordinaryQuarterPending();if(qp)a.push(`<div class="notice gray">普通门店季度要求：还有 <b>${qp}</b> 家本季度线下规划不足2次。可在“门店”页筛选季度待补，安排每月剩余20%的轮换门店。</div>`);else a.push(`<div class="notice good">普通门店本季度线下2次规划已全部覆盖。</div>`);homeAlerts.innerHTML=a.join('');
+ const p=[...plansForMonth()].sort((a,b)=>a.date.localeCompare(b.date)).slice(0,8);nextCount.textContent=`${p.length}条`;nextPlan.innerHTML=p.length?p.map(v=>visitRow(v,false)).join(''):`<div class="empty">还没有计划</div>`;
+}
+function visitRow(v,actions=true){
+ const isInspection=v.mode==='offline'||v.mode==='online',isStoreLinked=isInspection||v.mode==='activity',s=isStoreLinked?store(v.code):null,H=currentHighSet();
+ const tags={offline:'<span class="tag offline">到店+线上</span>',online:'<span class="tag online">仅线上</span>',meeting:'<span class="tag meeting">开会</span>',rest:'<span class="tag rest">休息</span>',activity:'<span class="tag activity">到店活动</span>'};
+ const labels={meeting:'开会',rest:'休息'};const codeText=isStoreLinked?(v.code||''):(labels[v.mode]||'事项');
+ const title=isStoreLinked?`${s?.district||''} ${isInspection&&H.has(v.code)?'<span class="tag high">高风险</span>':''} ${tags[v.mode]||''}`:`${tags[v.mode]||''}`;
+ const desc=isStoreLinked?([s?.name,s?.address,v.note].filter(Boolean).join(' · ')||'未填写备注'):(v.note||'未填写备注');const c=(v.code||'').replace(/'/g,"\\'");
+ return `<div class="visit"><div class="code">${codeText}</div><div class="meta"><div>${title} ${v.done?'<span class="tag done">已完成</span>':''}</div><div class="addr">${desc}</div></div>${actions?`<button class="btn sm ${v.done?'ghost':'green'}" onclick="toggleDone('${v.date}','${c}','${v.mode}')">${v.done?'取消':'完成'}</button><button class="btn sm danger" onclick="removeVisit('${v.date}','${c}','${v.mode}')">删除</button>`:''}</div>`
+}
+function renderPlan(){const grouped={};[...plansForMonth()].sort((a,b)=>a.date.localeCompare(b.date)).forEach(v=>(grouped[v.date]??=[]).push(v));planTitle.textContent=`${activeMonth().replace('-','年')}月计划明细`;planSummary.textContent=`${Object.keys(grouped).length}天 · ${plansForMonth().length}项`;planList.innerHTML=Object.keys(grouped).length?Object.entries(grouped).map(([d,vs])=>{const oc=vs.filter(x=>x.mode==='offline').length,ic=vs.filter(x=>x.mode==='online').length,ac=vs.filter(x=>x.mode==='activity').length,other=vs.filter(x=>x.mode==='meeting'||x.mode==='rest').length;return `<div class="day"><div class="dayhead"><b>${fmtDate(d)}</b><span>到店${oc} · 线上${ic}${ac?` · 活动${ac}`:''}${other?` · 其他${other}`:''}</span></div>${vs.map(v=>visitRow(v,true)).join('')}</div>`}).join(''):`<div class="empty">还没有安排本月计划</div>`}
+function renderStores(){
+ const q=(searchInput.value||'').trim(),f=riskFilter.value,H=currentHighSet(),off=offlineCodes(),on=onlineCoveredCodes();
+ let list=state.stores.filter(s=>!q||s.code.includes(q)||(s.district||'').includes(q)||(s.address||'').includes(q)||(s.name||'').includes(q));
+ if(f==='high')list=list.filter(s=>H.has(s.code));
+ if(f==='offlineMissing')list=list.filter(s=>!off.has(s.code));
+ if(f==='onlineMissing')list=list.filter(s=>!on.has(s.code));
+ if(f==='quarterMissing')list=list.filter(s=>quarterOfflinePlannedCount(s.code)<2);
+ if(f==='quarterZero')list=list.filter(s=>quarterOfflinePlannedCount(s.code)===0);
+ if(f==='quarterOne')list=list.filter(s=>quarterOfflinePlannedCount(s.code)===1);
+ storeList.innerHTML=list.map(s=>{
+   const high=H.has(s.code);
+   const onlineDone=monthOnlineDoneCount(s.code),onlinePlan=monthOnlinePlannedCount(s.code);
+   const offlineDone=monthOfflineDoneCount(s.code),offlinePlan=monthOfflinePlannedCount(s.code);
+   const qPlan=quarterOfflinePlannedCount(s.code),qRemain=Math.max(0,2-Math.min(qPlan,2));
+   let onlinePills='';
+   if(high){
+     const capped=Math.min(onlineDone,2);
+     onlinePills += capped===0?'<span class="pill bad">本月未点检</span>':(capped===1?'<span class="pill wait">本月已点检1次</span>':'<span class="pill ok">本月已点检2次</span>');
+     if(onlinePlan>onlineDone) onlinePills += `<span class="pill info">已规划${Math.min(onlinePlan,2)}次</span>`;
+   }else{
+     onlinePills += onlineDone>0?'<span class="pill ok">本月已覆盖</span>':'<span class="pill bad">本月未覆盖</span>';
+     if(onlineDone===0&&onlinePlan>0) onlinePills += '<span class="pill info">本月已规划</span>';
+   }
+   let offlinePills=offlineDone>0?`<span class="pill ok">本月已到店${offlineDone}次</span>`:'<span class="pill bad">本月到店巡检0次</span>';
+   if(offlineDone===0&&offlinePlan>0) offlinePills += `<span class="pill info">本月已规划${offlinePlan}次</span>`;
+   offlinePills += qRemain===0?'<span class="pill ok">季度还差0次</span>':(qRemain===1?'<span class="pill wait">季度还差1次</span>':'<span class="pill bad">季度还差2次</span>');
+   return `<div class="store"><div class="storetop"><div class="storecode">${s.code}${s.name?` · ${s.name}`:''}</div>${high?'<span class="tag high">高风险</span>':'<span class="tag">普通</span>'}</div><div class="storeaddr">${s.city||''} ${s.district||''} ${s.address||''}</div><div class="store-status"><div class="statusrow"><div class="statuslabel online">线上</div><div class="statuspills">${onlinePills}</div></div><div class="statusrow"><div class="statuslabel offline">线下</div><div class="statuspills">${offlinePills}</div></div></div></div>`
+ }).join('')||'<div class="empty">没有符合条件的门店</div>'
+}
+function renderSettings(){storeDataInfo.textContent=`当前门店数据：${state.stores.length}家 · 数据月份 ${state.dataMonth||'未设置'}`;const q=quarterSelect.value||quarterOfMonth(activeMonth());highDataInfo.textContent=`${q} 当前高风险：${(state.highRiskByQuarter[q]||[]).length}家`}
+function refreshPlanStoreOptions(){
+ const current=districtInput.value||'';const districts=[...new Set(state.stores.map(s=>s.district).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'zh-CN'));
+ districtInput.innerHTML='<option value="">全部县区</option>'+districts.map(d=>`<option value="${d}">${d}（${state.stores.filter(s=>s.district===d).length}家）</option>`).join('');
+ if(districts.includes(current))districtInput.value=current;
+ const d=districtInput.value;const list=d?state.stores.filter(s=>s.district===d):state.stores;
+ storeOptions.innerHTML=list.map(s=>`<option value="${s.code}">${s.name?`${s.name} · `:''}${s.district||''}</option>`).join('');
+}
+function renderAll(){renderHeader();renderHome();renderPlan();renderStores();renderSettings();refreshPlanStoreOptions()}
+function addVisit(){
+ const date=dateInput.value,code=storeInput.value.trim(),mode=modeInput.value,note=(noteInput.value||'').trim();
+ if(!date)return toast('请选择日期');
+ if(!date.startsWith(activeMonth()))return toast(`当前正在规划 ${activeMonth()}，请使用该月日期`);
+ const mp=plansForMonth();const isInspection=mode==='offline'||mode==='online',needsStore=isInspection||mode==='activity';
+ if(!needsStore){
+   if(mp.some(x=>x.date===date&&x.mode===mode))return toast('当天已经有同类型事项');
+   state.plans.push({date,mode,note,done:false});saveState();noteInput.value='';toast('已加入当天计划');return;
+ }
+ if(!code)return toast(mode==='activity'?'请选择到店活动门店':'请输入门店编号');
+ const st=store(code);if(!st)return toast('该门店不在当前门店数据中');
+ if(districtInput.value&&st.district!==districtInput.value)return toast(`该门店属于${st.district||'其他县区'}，请切换县区后再添加`);
+ if(mp.some(x=>x.date===date&&x.code===code&&x.mode===mode))return toast('当天已存在同类型计划');
+ if(mode==='activity'){
+   state.plans.push({date,code,mode,note,done:false});saveState();storeInput.value='';noteInput.value='';toast('到店活动已加入计划');return;
+ }
+ if(mode==='offline'){
+   if(mp.filter(x=>x.date===date&&x.mode==='offline').length>=3)return toast('当天已安排3家到店巡检');
+   const H=currentHighSet();if(H.has(code)){const prev=mp.filter(x=>x.code===code&&x.mode==='offline').sort((a,b)=>a.date.localeCompare(b.date));if(prev.length>=2)return toast('该高风险门店本月已安排2次到店');if(prev.length===1&&dayGap(prev[0].date,date)<10)return toast(`与第一次仅间隔${dayGap(prev[0].date,date)}天，高风险至少间隔10天`);}
+ }else{
+   const H=currentHighSet();const prior=mp.filter(x=>x.code===code&&(x.mode==='offline'||x.mode==='online')).sort((a,b)=>a.date.localeCompare(b.date));
+   if(!H.has(code)){if(prior.length)return toast('该普通门店本月已有线上覆盖计划，无需重复安排');}
+   else{if(prior.length>=2)return toast('该高风险门店本月线上点检已规划2次');if(prior.length===1&&dayGap(prior[0].date,date)<10)return toast(`与第一次线上覆盖仅间隔${dayGap(prior[0].date,date)}天，高风险至少间隔10天`);}
+ }
+ state.plans.push({date,code,mode,note,done:false});saveState();storeInput.value='';noteInput.value='';toast('已加入计划')
+}
+window.toggleDone=(date,code,mode)=>{const x=state.plans.find(v=>v.date===date&&(v.code||'')===code&&v.mode===mode);if(x){x.done=!x.done;saveState()}};
+window.removeVisit=(date,code,mode)=>{state.plans=state.plans.filter(v=>!(v.date===date&&(v.code||'')===code&&v.mode===mode));saveState()};
+function splitRow(line){return line.includes('\t')?line.split('\t'):line.split(',')}
+function norm(s){return String(s||'').trim().replace(/\s+/g,'').replace(/[（）()]/g,'')}
+function parsePastedTable(text){const lines=text.split(/\r?\n/).map(x=>x.trimEnd()).filter(x=>x.trim());if(lines.length<2)throw new Error('请复制包含表头和数据的Excel区域');const headers=splitRow(lines[0]).map(norm);const aliases={code:['门店编号','门店编码','门店号','店号'],name:['门店名称','店名','门店'],city:['地市','城市','市'],district:['区县','县区','区/县','区县名称','县市区'],address:['地址','门店地址','详细地址'],owner:['管店经理','顾问','负责人','经营顾问']};const idx={};Object.entries(aliases).forEach(([k,arr])=>idx[k]=headers.findIndex(h=>arr.includes(h)));if(idx.code<0)throw new Error('未识别到“门店编号/门店编码”列');const rows=[];for(let i=1;i<lines.length;i++){const cells=splitRow(lines[i]).map(x=>String(x||'').trim());const code=(cells[idx.code]||'').replace(/\.0$/,'');if(!code)continue;rows.push({code,name:idx.name>=0?cells[idx.name]||'':'',city:idx.city>=0?cells[idx.city]||'':'',district:idx.district>=0?cells[idx.district]||'':'',address:idx.address>=0?cells[idx.address]||'':'',owner:idx.owner>=0?cells[idx.owner]||'':''})}return rows}
+function extractCodes(text){const codes=new Set();text.split(/\r?\n/).forEach(line=>splitRow(line).forEach(c=>{const m=String(c).match(/\b\d{6,10}\b/);if(m)codes.add(m[0])}));return [...codes]}
+addBtn.onclick=addVisit;
+modeInput.onchange=()=>{const needsStore=modeInput.value==='offline'||modeInput.value==='online'||modeInput.value==='activity';districtInput.disabled=!needsStore;storeInput.disabled=!needsStore;if(needsStore){storeInput.placeholder=modeInput.value==='activity'?'选择县区后输入活动门店编号':'选择县区后输入门店编号';}else{storeInput.placeholder='此类型无需门店编号';storeInput.value='';}refreshPlanStoreOptions();};
+districtInput.onchange=()=>{storeInput.value='';refreshPlanStoreOptions()};
+searchInput.oninput=renderStores;riskFilter.onchange=renderStores;monthPicker.onchange=()=>{dateInput.value=`${activeMonth()}-01`;quarterSelect.value=quarterOfMonth(activeMonth());renderAll()};
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===t));document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===t.dataset.view));renderAll()});
+saveOwnerBtn.onclick=()=>{const next=ownerInput.value;if(!next)return toast('请选择本人姓名');if(state.owner&&state.owner!==next&&state.plans.length){if(!confirm('切换顾问后，当前手机上的计划仍会保留但可能与新顾问门店不匹配。建议先导出备份。确认继续？'))return;}state.owner=next;state.dataMonth=dataMonthInput.value||activeMonth();monthPicker.value=state.dataMonth;dateInput.value=`${state.dataMonth}-01`;saveState();toast('基础设置已保存')};
+importStoresBtn.onclick=()=>{try{let rows=parsePastedTable(storePaste.value);const owner=(ownerInput.value||state.owner||'').trim();const hasOwner=rows.some(r=>r.owner);if(hasOwner&&owner)rows=rows.filter(r=>r.owner===owner);const map=new Map();rows.forEach(r=>{const old=state.stores.find(s=>s.code===r.code)||{};map.set(r.code,{code:r.code,name:r.name,city:r.city,district:r.district,address:r.address,q3count:old.q3count||0,q3risk:old.q3risk||''})});const newStores=[...map.values()];if(!newStores.length)return toast('没有识别到属于本人的门店');const valid=new Set(newStores.map(s=>s.code));const oldCount=state.stores.length;state.stores=newStores;state.dataMonth=dataMonthInput.value||activeMonth();state.plans=state.plans.filter(p=>!p.code||valid.has(p.code)||!p.date.startsWith(state.dataMonth));saveState();toast(`门店数据已更新：${oldCount} → ${newStores.length}家`)}catch(e){toast(e.message||'门店数据解析失败')}};
+useCurrentQuarterBtn.onclick=()=>{quarterSelect.value=quarterOfMonth(activeMonth());renderSettings()};quarterSelect.onchange=renderSettings;
+importHighBtn.onclick=()=>{const q=quarterSelect.value;const codes=extractCodes(highPaste.value);if(!codes.length)return toast('未识别到门店编号');const valid=new Set(state.stores.map(s=>s.code));const kept=codes.filter(c=>valid.has(c));state.highRiskByQuarter[q]=kept;saveState();toast(`${q}高风险名单已更新：${kept.length}家`)};
+exportBtn.onclick=()=>{const payload={...state,exportedAt:new Date().toISOString()};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`${state.owner||'顾问'}_巡店工作台完整备份_${activeMonth()}.json`;a.click();URL.revokeObjectURL(a.href);toast('完整备份已导出')};
+importInput.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{importStateObject(JSON.parse(r.result));toast('完整备份已恢复')}catch(err){toast(err.message||'备份文件格式不正确')}};r.readAsText(f);e.target.value=''};
+demoBtn.onclick=()=>{state=deepClone(DEFAULT_STATE);monthPicker.value='2026-10';quarterSelect.value='2026Q4';saveState();toast('已恢复V5通用测试数据')};clearBtn.onclick=()=>{if(confirm('确认清空所有巡检计划吗？门店数据和高风险名单会保留。')){state.plans=[];saveState();toast('所有计划已清空')}};
+
+function updateSetupMask(){const need=!state.owner||!state.stores.length;setupMask.classList.toggle('show',need);if(state.owner)setupOwner.value=state.owner}
+function importStateObject(x){if(!x||!Array.isArray(x.stores)||!Array.isArray(x.plans))throw new Error('初始化文件格式不正确');state=normalizeState(x);localStorage.setItem(STORAGE_KEY,JSON.stringify(state));monthPicker.value=state.dataMonth||'2026-10';quarterSelect.value=quarterOfMonth(monthPicker.value);dateInput.value=`${monthPicker.value}-01`;renderAll();updateSetupMask()}
+setupImportInput.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(setupOwner.value&&x.owner&&x.owner!==setupOwner.value)return toast(`文件属于${x.owner}，请确认选择`);importStateObject(x);toast(`已加载${state.owner}的${state.stores.length}家门店`)}catch(err){toast(err.message||'初始化文件无法读取')}};r.readAsText(f);e.target.value=''};
+startBlankBtn.onclick=()=>{const o=setupOwner.value;if(!o)return toast('请先选择本人姓名');state.owner=o;state.dataMonth=activeMonth()||'2026-10';saveState();toast('已进入空白工作台，请在设置中导入门店数据')};
+loadPrevHighBtn.onclick=()=>{if(!state.previousHighRisk.length)return toast('当前初始化文件没有上季度高风险名单');const q=quarterOfMonth(activeMonth());const valid=new Set(state.stores.map(s=>s.code));state.highRiskByQuarter[q]=state.previousHighRisk.filter(c=>valid.has(c));saveState();toast(`仅测试：已将上季度高风险载入${q}，共${state.highRiskByQuarter[q].length}家`)};
+monthPicker.value=state.dataMonth||'2026-10';quarterSelect.value=quarterOfMonth(activeMonth());dateInput.value=`${activeMonth()}-02`;modeInput.onchange();renderAll();updateSetupMask();
+</script>
+</body>
+</html>
