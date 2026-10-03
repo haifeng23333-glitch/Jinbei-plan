@@ -32,7 +32,7 @@ input,select,textarea{width:100%;border:1px solid #dfe2e8;border-radius:9px;padd
 <body>
 <div class="phone">
 <header class="top">
-  <div class="topline"><div class="brand">晋北巡店计划工作台</div><div class="badge">V5通用测试</div></div>
+  <div class="topline"><div class="brand">晋北巡店计划工作台</div><div class="badge">V5.1通用测试</div></div>
   <div class="sub"><span id="ownerSub">朱海峰 · 吕梁市离石区</span><input id="monthPicker" class="monthpick" type="month" value="2026-10"></div>
 </header>
 <main>
@@ -235,9 +235,9 @@ function renderStores(){
  if(f==='high')list=list.filter(s=>H.has(s.code));
  if(f==='offlineMissing')list=list.filter(s=>!off.has(s.code));
  if(f==='onlineMissing')list=list.filter(s=>!on.has(s.code));
- if(f==='quarterMissing')list=list.filter(s=>quarterOfflinePlannedCount(s.code)<2);
- if(f==='quarterZero')list=list.filter(s=>quarterOfflinePlannedCount(s.code)===0);
- if(f==='quarterOne')list=list.filter(s=>quarterOfflinePlannedCount(s.code)===1);
+ if(f==='quarterMissing')list=list.filter(s=>!H.has(s.code)&&quarterOfflinePlannedCount(s.code)<2);
+ if(f==='quarterZero')list=list.filter(s=>!H.has(s.code)&&quarterOfflinePlannedCount(s.code)===0);
+ if(f==='quarterOne')list=list.filter(s=>!H.has(s.code)&&quarterOfflinePlannedCount(s.code)===1);
  storeList.innerHTML=list.map(s=>{
    const high=H.has(s.code);
    const onlineDone=monthOnlineDoneCount(s.code),onlinePlan=monthOnlinePlannedCount(s.code);
@@ -254,7 +254,9 @@ function renderStores(){
    }
    let offlinePills=offlineDone>0?`<span class="pill ok">本月已到店${offlineDone}次</span>`:'<span class="pill bad">本月到店巡检0次</span>';
    if(offlineDone===0&&offlinePlan>0) offlinePills += `<span class="pill info">本月已规划${offlinePlan}次</span>`;
-   offlinePills += qRemain===0?'<span class="pill ok">季度还差0次</span>':(qRemain===1?'<span class="pill wait">季度还差1次</span>':'<span class="pill bad">季度还差2次</span>');
+   if(!high){
+     offlinePills += qRemain===0?'<span class="pill ok">季度还差0次</span>':(qRemain===1?'<span class="pill wait">季度还差1次</span>':'<span class="pill bad">季度还差2次</span>');
+   }
    return `<div class="store"><div class="storetop"><div class="storecode">${s.code}${s.name?` · ${s.name}`:''}</div>${high?'<span class="tag high">高风险</span>':'<span class="tag">普通</span>'}</div><div class="storeaddr">${s.city||''} ${s.district||''} ${s.address||''}</div><div class="store-status"><div class="statusrow"><div class="statuslabel online">线上</div><div class="statuspills">${onlinePills}</div></div><div class="statusrow"><div class="statuslabel offline">线下</div><div class="statuspills">${offlinePills}</div></div></div></div>`
  }).join('')||'<div class="empty">没有符合条件的门店</div>'
 }
